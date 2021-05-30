@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SHARE!</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <script>window.ENV_VARIABLE = 'developer.here.com'</script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+</head>
+
+
+<body style="padding: 0; margin: 0;" id="markers-on-the-map">
+
+   
+
+
+    <div style="width: 100vw; height: 100vh" id="mapContainer"></div>
+
+
+
+
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <script>
+        window.alert = function () { };
+
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDmQxMh2t37dyvczf_JLTvAIRtxz9NDWO0",
+            authDomain: "ccdd-a49b4.firebaseapp.com",
+            databaseURL: "https://ccdd-a49b4-default-rtdb.firebaseio.com",
+            projectId: "ccdd-a49b4",
+            storageBucket: "ccdd-a49b4.appspot.com",
+            messagingSenderId: "106335345836",
+            appId: "1:106335345836:web:e0130e5275e91ee6d41309"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        var veicoloAmico = sessionStorage.getItem("veicoloAmico");
+        
+
+        firebase.database().ref(`mezzi/`+ veicoloAmico).once("value", snapshot => {
+
+            sessionStorage.setItem("latitudine", snapshot.child("latitudine").val());
+            sessionStorage.setItem("longitudine", snapshot.child("longitudine").val());
+
+        });
+
+        var latitudine = sessionStorage.getItem("latitudine");
+        var longitudine = sessionStorage.getItem("longitudine");
+        
+    
+
+
+
+        
+
+        firebase.database().ref(`utenti`).orderByChild("email").equalTo(sessionStorage.getItem("emailLog")).once("child_added", snapshot => {
+
+            if(snapshot.hasChild("mezzoOccupato")){
+                console.log("si");
+                var chiave = snapshot.child("mezzoOccupato").val()
+
+                firebase.database().ref(`mezzi/` + chiave).once("value", snapshot => {
+
+                    sessionStorage.setItem("latitudineTua", snapshot.child("latitudine").val());
+                    sessionStorage.setItem("longitudineTua", snapshot.child("longitudine").val());
+
+                });
+
+                var latitudineTua = sessionStorage.getItem("latitudineTua");
+                var longitudineTua = sessionStorage.getItem("longitudineTua");
+
+                var platform = new H.service.Platform({
+                    'apikey': "RBBuzC_inuQOLvHSvUGKwrBCPetwAkoOqm1Cq9OuTpg"
+                });
+
+                var targetElement = document.getElementById('mapContainer');
+
+                // Get the default map types from the platform object:
+                var defaultLayers = platform.createDefaultLayers();
+
+                // Instantiate the map:
+                var map = new H.Map(
+                    document.getElementById('mapContainer'),
+                    defaultLayers.vector.normal.map,
+                    {
+                        zoom: 13,
+                        center: { lat: latitudine, lng: longitudine }
+                    });
+
+                // Create the parameters for the routing request:
+                var routingParameters = {
+                    'routingMode': 'fast',
+                    'transportMode': 'car',
+                    // The start point of the route:
+                    'origin': latitudineTua+ ',' +longitudineTua,
+                    // The end point of the route:
+                    'destination': latitudine + ',' + longitudine,
+                    // Include the route shape in the response
+                    'return': 'polyline'
+                };
+
+                // Define a callback function to process the routing response:
+                var onResult = function (result) {
+                    // ensure that at least one route was found
+                    if (result.routes.length) {
+                        result.routes[0].sections.forEach((section) => {
+                            // Create a linestring to use as a point source for the route line
+                            let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+
+                            // Create a polyline to display the route:
+                            let routeLine = new H.map.Polyline(linestring, {
+                                style: { strokeColor: 'blue', lineWidth: 3 }
+                            });
+
+                            var pngIcon = new H.map.Icon("icon1.png", { size: { w: 56, h: 56 } });
+
+                            // Create a marker for the start point:
+                            let startMarker = new H.map.Marker(section.departure.place.location, { icon: pngIcon });
+
+                            var pngIcon2 = new H.map.Icon("icon2.png", { size: { w: 56, h: 56 } });
+
+                            // Create a marker for the end point:
+                            let endMarker = new H.map.Marker(section.arrival.place.location, { icon: pngIcon2 });
+
+                            // Add the route polyline and the two markers to the map:
+                            map.addObjects([routeLine, startMarker, endMarker]);
+
+                            // Set the map's viewport to make the whole route visible:
+                            map.getViewModel().setLookAtData({ bounds: routeLine.getBoundingBox() });
+                            var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+                        });
+                    }
+                };
+
+                // Get an instance of the routing service version 8:
+                var router = platform.getRoutingService(null, 8);
+
+                // Call calculateRoute() with the routing parameters,
+                // the callback and an error callback function (called if a
+                // communication error occurs):
+                router.calculateRoute(routingParameters, onResult,
+                    function (error) {
+                        alert(error.message);
+                    });
+
+                    var ui = H.ui.UI.createDefault(map, defaultLayers, 'it-IT');
+            }else{
+                console.log("no");
+                var platform = new H.service.Platform({
+                    'apikey': "RBBuzC_inuQOLvHSvUGKwrBCPetwAkoOqm1Cq9OuTpg"
+                });
+
+
+                var defaultLayers = platform.createDefaultLayers();
+                var map = new H.Map(
+                    document.getElementById('mapContainer'),
+                    defaultLayers.vector.normal.map,
+                    {
+                        zoom: 16,
+                        center: { lat: latitudine, lng: longitudine }
+                    });
+
+
+                var pngIcon = new H.map.Icon("icon2.png", { size: { w: 56, h: 56 } });
+
+                marker = new H.map.Marker({ lat: latitudine, lng: longitudine } , { icon: pngIcon });
+
+                map.addObject(marker);
+                var ui = H.ui.UI.createDefault(map, defaultLayers, 'it-IT');
+                var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+            }
+
+        });
+        
+    
+
+        
+   setTimeout(function () { 
+
+
+    if (window.location.href.substr(-2) !== "?r") {
+           window.location = window.location.href + "?r";
+       }
+
+    }, 2000);
+        
+    </script>
+
+    
+    
+
+
+</body>
+
+</html>

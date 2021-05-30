@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SHARE!</title>
+    <meta name="viewport" id="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    
+    
+    
+    
+    <style>
+        
+           a:link {
+            color: #f3f3f3;
+        }
+    
+        a:visited {
+            color: #f3f3f3;
+        }
+    
+        a:hover {
+            color: #f3f3f3;
+        }
+    
+        a:active {
+            color: #f3f3f3;
+        }
+
+        
+
+        .css-input {
+            padding: 10px 25px;
+            font-size: 16px;
+            border-width: 0px;
+            border-color: #333333;
+            background-color: #f3f3f3;
+            color: #333333;
+            border-style: solid;
+            border-radius: 20px;
+            box-shadow: -13px 0px 5px rgba(66,66,66,.0);
+            text-shadow: 0px 0px 5px rgba(66,66,66,.0);
+        }
+        
+        .css-input:focus {
+            outline:none;
+        }
+
+         input {
+            border: none;
+            border-bottom: 3px solid rgba(100, 100, 100, 1);
+            background-color: #f3f3f3;
+            outline: none;
+            font-size: 15px;
+            font-weight: bolder;
+    
+    
+        }
+    
+    
+        input[type=button] {
+    
+            border: none;
+            background: linear-gradient(to right, #de6262, #ffb88c);
+            color: #f3f3f3;
+            width: 100%;
+            border-radius: 3px;
+            letter-spacing: 0.8px;
+            height: 30px;
+            transition: 0.4s ease-in-out;
+            cursor: pointer;
+        }
+
+        .clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; }
+
+    </style>
+</head>
+
+<body style="position: absolute; background-color: #f3f3f3;">
+
+
+    <div>
+        <div
+            style="top: 0%; left: 0%; transform: translate(-50%); position: fixed; background-color: rgb(51, 51 ,51);height: 5.5vh; width: 200vw; box-shadow: 0 7px 8px 0 rgba(0,0,0,.2);">
+        </div>
+    
+        <div style="top: 2.75vh; left: 5vmin; transform: translate(-50%, -50%); position: fixed;"><img
+                src="6399891_preview.png" style="height: 5vh;width: 5vh;"></div>
+        <div style="top: 2.75vh; left: 50%;transform: translate(-50%, -50%); position: fixed;">
+            <h1 style="color: #f3f3f3; font-family: 'Righteous', cursive;cursor: default;">Share!</h1>
+        </div>
+        <div style="top: 2.75vh; left: 92%; transform: translate(-50%, -50%); position: fixed;"><img id="accountimg"
+                src="img_568656.png" style="height: 4vh;width: 4vh; cursor: pointer; "></div>
+    </div>
+
+    <div id="bolla"
+        style=" height: 15vh; width: 100%;top: 5.5vh;left:50%;transform: translateX(-50%); position: fixed; background-color: rgb(51, 51 ,51); z-index: -1; visibility: hidden;transition: opacity 0.2s; opacity: 0;">
+    
+    
+    
+    
+        <input type="button" value="accesso non effettuato" id="diverso"
+            style="color:rgb(51, 51 ,51);background: #f3f3f3; width: 70%; top: 50%; left: 50%; transform: translate(-50%, -50%); position: fixed; ">
+
+            <input type="button" value="cliccare di nuovo per uscire" id="buttlogout"
+                style="color:rgb(51, 51 ,51);background: #f3f3f3; width: 70%; top: 50%; left: 50%; transform: translate(-50%, -50%); position: fixed; visibility: hidden; ">
+    
+    
+    
+    </div>
+
+
+   
+    <div id="parteSopra" style="top: calc(2% + 5.5vh);left:50%; transform: translateX(-50%); position: fixed;height: calc(50% - 5.5vh); width: 95%;background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);z-index: -2; border-radius: 20px;">  
+        
+        <div style="position: fixed; top: 50%; left: 50%;transform: translate(-50%,-50%); " >
+                <input type="text" class="css-input" disabled value="prenotazione veicolo" style="text-align: center;color: #f3f3f3; background-color: rgb(51, 51 ,51);"><br><br>
+                <input type="text" class="css-input" id="numVeic" placeholder="numero veicolo" style="text-align: center;"><br><br>
+                <input type="button" id="setdisp" value="invia" style="background:rgb(51, 51 ,51);color: #f3f3f3; border-radius: 28px; width: 100px;position: fixed; left: 50%;transform: translateX(-50%);">
+        </div>
+    
+    </div>
+
+   
+    
+    
+    
+<div id="parteSinistra" style="top: 54%; left:25.5%; transform: translateX(-50%); position: fixed;height: calc(50% - 5.5vh); width: 46%;background-color: #4158D0; background-image: linear-gradient(45deg, #0700b8 0%, #00ff88 100%);z-index: -2; border-radius: 20px;">
+
+    <div style="position: fixed; top: 50%; left: 50%;transform: translate(-50%,-50%); " class="clearfix">
+            
+        <input type="text" class="css-input" id="numAmicEst" placeholder="cod. amico" style="text-align: center; width: 100%; right: 50%;transform: translateX(-18%)"><br><br>
+        <input type="button" id="inviaamico" value="invia" style="background:rgb(51, 51 ,51);color: #f3f3f3; border-radius: 28px; width: 100px;position: fixed; left: 50%;transform: translateX(-50%);">
+    </div>
+
+</div>
+
+<div id="parteDestra" style="top: 54%; right:25.5%; transform: translateX(50%); position: fixed;height: calc(50% - 5.5vh); width: 46%;background-color: #4158D0; background-image: linear-gradient(to right, #de6262, #ffb88c);z-index: -2; border-radius: 20px;">
+
+    <div style="position: fixed; top: 50%; left: 50%;transform: translate(-50%,-50%); " class="clearfix">
+    <input type="button"  value="codice" style="background:rgb(51, 51 ,51);color: #f3f3f3; border-radius: 28px; width: 100px;position: fixed; left: 50%;transform: translateX(-50%);" disabled><br><br>
+        <input type="text" class="css-input" id="codAmic" value="" style="text-align: center; width: 100%; right: 50%;transform: translateX(-18%)" disabled>
+    </div>
+
+</div>
+    
+
+
+    
+  
+    
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script>
+       
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+                apiKey: "AIzaSyDmQxMh2t37dyvczf_JLTvAIRtxz9NDWO0",
+                authDomain: "ccdd-a49b4.firebaseapp.com",
+                databaseURL: "https://ccdd-a49b4-default-rtdb.firebaseio.com",
+                projectId: "ccdd-a49b4",
+                storageBucket: "ccdd-a49b4.appspot.com",
+                messagingSenderId: "106335345836",
+                appId: "1:106335345836:web:e0130e5275e91ee6d41309"
+            };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+      
+        
+        var emailv = sessionStorage.getItem("emailLog");
+        var passwordv = sessionStorage.getItem("passwordLog");
+        
+        firebase.database().ref(`utenti`).orderByChild("email").equalTo(sessionStorage.getItem("emailLog")).once("child_added", snapshot => {
+
+            if (snapshot.exists()) {
+                var chiave = snapshot.key;
+                firebase.database().ref(`utenti/`+ chiave + "/nome").get().then(function (snapshot){ document.getElementById("diverso").value = "utente: " +  snapshot.val() + " "; });
+                firebase.database().ref(`utenti/` + chiave + "/cognome").get().then(function (snapshot){  document.getElementById("diverso").value = document.getElementById("diverso").value + snapshot.val(); }); 
+                firebase.database().ref(`utenti/` + chiave + "/codice").get().then(function (snapshot) { document.getElementById("codAmic").value = snapshot.val(); });              
+            } else {
+                console.log("No data available");
+                window.location.href = "index.html";
+            }
+
+        
+        });
+
+        document.getElementById("diverso").addEventListener("click", function () {
+
+
+                document.getElementById("buttlogout").style.visibility = "visible";
+
+
+        });
+
+        document.getElementById("buttlogout").addEventListener("click", function () {
+
+
+                window.location.replace('index.html');
+
+
+            });
+
+      
+
+        document.getElementById("accountimg").addEventListener("click", function () {
+
+
+
+                if (document.getElementById("bolla").style.visibility == "visible") {
+
+                    document.getElementById("buttlogout").style.visibility = "hidden";
+                    document.getElementById("bolla").style.opacity = "0";
+                    setTimeout(function () {
+                        document.getElementById("bolla").style.visibility = "hidden";
+
+                    }, 200);
+
+                } else {
+
+                    document.getElementById("bolla").style.visibility = "visible";
+                    document.getElementById("bolla").style.opacity = "1";
+
+                }
+
+
+
+
+
+            });
+
+            window.visualViewport.addEventListener('resize', event => {
+
+
+                    if (document.getElementById("bolla").style.visibility == "visible") {
+
+                        document.getElementById("bolla").style.opacity = "0";
+                        setTimeout(function () {
+                            document.getElementById("bolla").style.visibility = "hidden";
+
+                        }, 200);
+
+                    }
+
+
+
+                });
+
+           document.getElementById("setdisp").addEventListener("click", function (){
+
+                var numveic = document.getElementById("numVeic").value;
+
+                if(numveic == ""){
+                    document.getElementById("numVeic").placeholder = "numero non valido";
+                    document.getElementById("numVeic").value = "";
+                    return;
+                }
+                
+                firebase.database().ref(`mezzi/`+ numveic).once("value").then(function (snapshot){                   
+                       if (snapshot.exists()) {
+                            if(snapshot.child("disponibile").val() == 0){
+
+                        firebase.database().ref(`mezzi/` + numveic).update({ "disponibile" : 1});
+                        document.getElementById("numVeic").placeholder = "veicolo prenotato.";
+                        document.getElementById("numVeic").value = "";
+                                
+                        firebase.database().ref(`utenti`).orderByChild("email").equalTo(sessionStorage.getItem("emailLog")).once("child_added", snapshot => {
+
+                                    if (snapshot.exists()) {
+                                        var chiave = snapshot.key;
+
+                                        firebase.database().ref(`utenti/`+ chiave).update({ "mezzoOccupato": numveic });
+                                        }
+                        
+                                       
+                    
+                        });
+
+                            }else{
+
+                               document.getElementById("numVeic").placeholder = "veicolo occupato";
+                                document.getElementById("numVeic").value = ""; 
+                            }        
+
+
+                    } else {
+
+                       
+                        document.getElementById("numVeic").placeholder = "numero non valido";
+                        document.getElementById("numVeic").value = "";
+                        
+                    }
+
+                });
+
+
+
+
+           });
+
+          
+
+
+
+
+
+
+           document.getElementById("inviaamico").addEventListener("click", function () {
+
+            var codicea = document.getElementById("numAmicEst").value;
+            var codiceamico = parseInt(codicea);
+            
+            
+            firebase.database().ref(`utenti`).orderByChild("email").equalTo(sessionStorage.getItem("emailLog")).once("child_added", snapshot => {
+
+                
+
+                    sessionStorage.setItem("codiceamicolocale", snapshot.child("codice").val() );
+
+
+                
+
+            });
+            
+            var codiceamicolocale = sessionStorage.getItem("codiceamicolocale");
+            
+            if(codiceamico == ""  || codiceamico ==  codiceamicolocale){
+
+                document.getElementById("numAmicEst").placeholder = "cod. errato";
+                document.getElementById("numAmicEst").value = "";
+
+            }else{
+                firebase.database().ref(`utenti`).orderByChild("codice").equalTo(codiceamico).once("child_added", snapshot => {
+
+                    console.log(snapshot.val());
+                    if (snapshot.exists()) {
+                        
+                                if(snapshot.hasChild("mezzoOccupato")){
+
+                                    sessionStorage.setItem("veicoloAmico", snapshot.child("mezzoOccupato").val());
+                                    document.getElementById("numAmicEst").placeholder = "loading...";
+                                    document.getElementById("numAmicEst").value = "";
+                                    window.location.assign("map.html");
+                                }else{
+                                    console.log("no");
+                                    document.getElementById("numAmicEst").placeholder = "cod. errato";
+                                    document.getElementById("numAmicEst").value = "";
+
+                                }
+    
+                        
+                    }else{
+                        console.log("nono");
+                        document.getElementById("numAmicEst").placeholder = "cod. errato";
+                        document.getElementById("numAmicEst").value = "";
+                    }
+
+
+                });
+
+
+                
+            }
+
+
+
+           });
+
+
+
+
+
+
+    </script>
+
+    <script>
+        // Global boolean variable that holds the current orientation
+        var pageInPortraintMode;
+
+        // Listen for window resizes to detect orientation changes
+        window.addEventListener("resize", windowSizeChanged);
+
+        // Set the global orientation variable as soon as the page loads
+        addEventListener("load", function () {
+            pageInPortraintMode = window.innerHeight > window.innerWidth;
+            document.getElementById("viewport").setAttribute("content", "width=" + window.innerWidth + ", height=" + window.innerHeight + ", initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+        })
+
+        // Adjust viewport values only if orientation has changed (not on every window resize)
+        function windowSizeChanged() {
+            if (((pageInPortraintMode === true) && (window.innerHeight < window.innerWidth)) || ((pageInPortraintMode === false) && (window.innerHeight > window.innerWidth))) {
+                pageInPortraintMode = window.innerHeight > window.innerWidth;
+                document.getElementById("viewport").setAttribute("content", "width=" + window.innerWidth + ", height=" + window.innerHeight + ", initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

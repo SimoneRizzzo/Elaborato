@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SHARE!</title>
+    <meta name="viewport" id="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
+    <style>
+        a:link {
+            color: #f3f3f3;
+        }
+    
+        a:visited {
+            color: #f3f3f3;
+        }
+    
+        a:hover {
+            color: #f3f3f3;
+        }
+    
+        a:active {
+            color: #f3f3f3;
+        }
+    
+        #bolla {
+    
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+        }
+    
+        input {
+            border: none;
+            border-bottom: 3px solid rgba(100, 100, 100, 1);
+            background-color: #f3f3f3;
+            outline: none;
+            font-size: 15px;
+            font-weight: bolder;
+            width: 50vw;
+    
+        }
+    
+        input:focus {
+    
+            border-bottom: 3px solid;
+            border-image: linear-gradient(to right, #de6262, #ffb88c);
+            border-image-slice: 1;
+    
+    
+        }
+    
+        input[type=button] {
+    
+            border: none;
+            background: linear-gradient(to right, #de6262, #ffb88c);
+            color: #f3f3f3;
+            width: 100%;
+            border-radius: 3px;
+            letter-spacing: 0.8px;
+            height: 30px;
+            transition: 0.4s ease-in-out;
+            cursor: pointer;
+        }
+    
+    
+    </style>
+</head>
+
+<body style="position: absolute; background-color: #f3f3f3;">
+
+    <div>
+        <div
+            style="top: 0%; left: 0%; transform: translate(-50%); position: fixed; background-color: rgb(51, 51 ,51);height: 5.5vh; width: 200vw; box-shadow: 0 7px 8px 0 rgba(0,0,0,.2);">
+        </div>
+        
+        <div style="top: 2.75vh; left: 5vmin; transform: translate(-50%, -50%); position: fixed;"><img src="6399891_preview.png"
+                style="height: 5vh;width: 5vh;"></div>
+        <div style="top: 2.75vh; left: 50%;transform: translate(-50%, -50%); position: fixed;">
+            <h1 style="color: #f3f3f3; font-family: 'Righteous', cursive;cursor: default;">Share!</h1>
+        </div>
+        <div style="top: 2.75vh; left: 92%; transform: translate(-50%, -50%); position: fixed;"><img id="accountimg"
+                src="img_568656.png" style="height: 4vh;width: 4vh; cursor: pointer; "></div>
+        </div>
+    
+    
+
+<div id="bolla"
+    style=" height: 15vh; width: 100%;top: 5.5vh;left:50%;transform: translateX(-50%); position: fixed; background-color: rgb(51, 51 ,51); z-index: -1; visibility: hidden;transition: opacity 0.2s; opacity: 0;">
+
+
+
+
+    <input type="button" value="registrato? effettua il login"
+        style="color:rgb(51, 51 ,51);background: #f3f3f3; width: 70%; top: 50%; left: 50%; transform: translate(-50%, -50%); position: fixed; "
+        onclick="location.href = 'index.html'" >
+
+
+
+</div>
+
+    <div style="top: 50%; left: 50%; transform: translate(-50%, -50%); position: fixed; z-index: -2;">
+        <div
+            style="background: linear-gradient(to right, #de6262, #ffb88c); height: 48vh; width: 45vh;border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;">
+            <div style="top: 50%; left: 50%; transform: translate(-50%, -50%); position: fixed;">
+                <div
+                    style="border-radius: 8px;background-color: #f3f3f3;height: 36vh; width: 33vh;box-shadow: inset 0 0 10px;">
+
+                    <form style="top: 50%; left: 50%; transform: translate(-50%, -50%);position: fixed;">
+                        <br>
+                        <input type="text" id="emailF" placeholder="email"><br>
+                        <br>
+                        <input type="password" id="passwordF" placeholder="password"><br>
+                        <br>
+                        <input type="text" id="nomeF" placeholder="nome"><br>
+                        <br>
+                        <input type="text" id="cognomeF" placeholder="cognome"><br>
+                        <br><br>
+                        <input type="button" value="registrati" id="buttonSingF" style="background: linear-gradient(to right, #de6262, #ffb88c);">
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDmQxMh2t37dyvczf_JLTvAIRtxz9NDWO0",
+            authDomain: "ccdd-a49b4.firebaseapp.com",
+            databaseURL: "https://ccdd-a49b4-default-rtdb.firebaseio.com",
+            projectId: "ccdd-a49b4",
+            storageBucket: "ccdd-a49b4.appspot.com",
+            messagingSenderId: "106335345836",
+            appId: "1:106335345836:web:e0130e5275e91ee6d41309"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        document.getElementById("accountimg").addEventListener("click", function () {
+
+
+
+                if (document.getElementById("bolla").style.visibility == "visible") {
+
+                    document.getElementById("bolla").style.opacity = "0";
+                    setTimeout(function () {
+                        document.getElementById("bolla").style.visibility = "hidden";
+                    }, 200);
+                    
+                } else {
+
+                    document.getElementById("bolla").style.visibility = "visible";
+                    document.getElementById("bolla").style.opacity = "1";
+                    
+                }
+
+
+
+
+
+
+
+            });
+
+
+            window.visualViewport.addEventListener('resize', event => {
+
+
+                    if (document.getElementById("bolla").style.visibility == "visible") {
+
+                        document.getElementById("bolla").style.opacity = "0";
+                        setTimeout(function () {
+                            document.getElementById("bolla").style.visibility = "hidden";
+
+                        }, 200);
+
+                    }
+
+
+
+                });
+
+                
+
+        document.getElementById("buttonSingF").onclick = function () {
+                var emailv = document.getElementById("emailF").value;
+                var passwordv = document.getElementById("passwordF").value;
+                var nomev = document.getElementById("nomeF").value;
+                var cognomev = document.getElementById("cognomeF").value;
+                
+            if(emailv == "" || passwordv == "" || nomev == "" || cognomev == ""){
+                document.getElementById("emailF").placeholder = "inserire email.";
+                document.getElementById("passwordF").placeholder = "inserire password.";
+                document.getElementById("nomeF").placeholder = "inserire nome.";
+                document.getElementById("cognomeF").placeholder = "inserire cognome.";
+                return;
+
+
+            }
+
+                //controllo email
+                firebase.database().ref(`utenti`).orderByChild("email").equalTo(emailv).once("value", snapshot => {
+                if (snapshot.exists()) {
+                   document.getElementById("passwordF").placeholder = "password";
+                   document.getElementById("emailF").placeholder = "email esistente.";
+                   document.getElementById("emailF").value = "";
+                }else{
+                    document.getElementById("emailF").placeholder = "email";
+                    firebase.database().ref(`utenti`).orderByChild("password").equalTo(passwordv).once("value", snapshot => {
+                        if (snapshot.exists()) {
+                            //qui
+                            document.getElementById("passwordF").placeholder = "password esistente.";
+                            document.getElementById("passwordF").value = "";
+                        }else{
+                                document.getElementById("passwordF").placeholder = "password";
+                                //inserimento dati
+                                firebase.database().ref('utenti/').push({
+                                email: emailv,
+                                password: passwordv,
+                                nome: nomev,
+                                cognome: cognomev,
+                                codice: Math.floor(Math.random() * 1001)    
+                              });
+                                window.location.replace('index.html');                             
+                                
+                        }
+                    });
+
+                }
+                });
+
+                
+            
+            }
+
+
+    </script>
+
+    <script>
+        // Global boolean variable that holds the current orientation
+        var pageInPortraintMode;
+
+        // Listen for window resizes to detect orientation changes
+        window.addEventListener("resize", windowSizeChanged);
+
+        // Set the global orientation variable as soon as the page loads
+        addEventListener("load", function () {
+            pageInPortraintMode = window.innerHeight > window.innerWidth;
+            document.getElementById("viewport").setAttribute("content", "width=" + window.innerWidth + ", height=" + window.innerHeight + ", initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+        })
+
+        // Adjust viewport values only if orientation has changed (not on every window resize)
+        function windowSizeChanged() {
+            if (((pageInPortraintMode === true) && (window.innerHeight < window.innerWidth)) || ((pageInPortraintMode === false) && (window.innerHeight > window.innerWidth))) {
+                pageInPortraintMode = window.innerHeight > window.innerWidth;
+                document.getElementById("viewport").setAttribute("content", "width=" + window.innerWidth + ", height=" + window.innerHeight + ", initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+            }
+        }
+    </script>
+
+
+</body>
+
+
+
+
+
+</html>
