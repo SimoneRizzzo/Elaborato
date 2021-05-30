@@ -1,3 +1,3 @@
 # Elaborato
 
-qui sarà contenuto i file uisati per la creazione del sito
+qui saranno contenuti i file usati per la creazione del sito
